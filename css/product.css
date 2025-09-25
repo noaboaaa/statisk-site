@@ -103,6 +103,41 @@
 }
 .cta:hover{ filter:brightness(.98); }
 
+/* --- PRISER I KØBSPANEL --- */
+.price-wrap{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin: 2px 0 8px;
+}
+
+.buy-panel .prices .prev{
+  color:#ffffffcc;           /* lysere hvid i grå boks */
+  font-size:16px;
+}
+.buy-panel .prices .now{
+  color:#fff;
+  font-weight:800;
+  font-size:22px;
+}
+
+.buy-panel .discount-badge{
+  background:#e53b2b;        /* rød badge */
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
+  padding:6px 10px;
+  border-radius:4px;
+  align-self:flex-start;
+}
+
+/* Hvis du vil dæmpe billedet ved udsolgt (match med .thumb.is-soldout i list) */
+.product-media .product-img.is-soldout{
+  filter: grayscale(1);
+  opacity:.5;
+}
+
 /* Responsivitet */
 @media (max-width: 1100px){
   .product-layout{ grid-template-columns: 1fr 1fr; }
