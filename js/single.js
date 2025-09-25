@@ -1,78 +1,60 @@
-// single.js
-(function(){
-  const qs = new URLSearchParams(location.search);
-  const id = qs.get("id") || "1163";
-  const ENDPOINT = `https://kea-alt-del.dk/t7/api/products/${id}`;
+// single.js 
+document.addEventListener("DOMContentLoaded", () => {
+  const API_BASE = "https://kea-alt-del.dk/t7/api";
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id") || "1163";
+  const ENDPOINT = `${API_BASE}/products/${id}`;
 
-  // DOM refs
+  // DOM
   const img     = document.getElementById("prod-img");
   const thumb   = document.getElementById("thumb");
   const model   = document.getElementById("model");
   const color   = document.getElementById("color");
   const inv     = document.getElementById("inv");
-  const brand   = document.getElementById("brand");
-  const brandCp = document.getElementById("brand-copy");
+  const brandEl = document.getElementById("brand");
   const bpName  = document.getElementById("bp-title");
   const bpMeta  = document.getElementById("bp-meta");
   const cta     = document.getElementById("cta");
   const bcCur   = document.getElementById("bc-current");
   const err     = document.getElementById("error");
+  const brandCp = document.getElementById("brand-copy"); 
 
   // Pris DOM
-  const priceWrap = document.getElementById("price-wrap");
   const pricePrev = document.getElementById("price-prev");
   const priceNow  = document.getElementById("price-now");
   const badge     = document.getElementById("price-badge");
-
-  const pick = (obj, keys, def = "") =>
-    keys.reduce((acc,k) => acc ?? obj?.[k], undefined) ?? def;
-
-  const fmt = (n) => `DKK ${Number(n).toLocaleString("da-DK", { maximumFractionDigits: 0 })},-`;
+  const priceWrap = document.getElementById("price-wrap");
 
   fetch(ENDPOINT)
-    .then(r => {
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      return r.json();
-    })
+    .then(r => r.json())
     .then(p => {
-      const name       = pick(p, ["productdisplayname","productDisplayName","name"], "");
-      const brandname  = pick(p, ["brandname","brandName","brand"], "");
-      const category   = pick(p, ["category","articletype","articleType"], "");
-      const baseColor  = pick(p, ["basecolour","baseColor","basecolour","color1","colour1","color"], "—");
-      const price      = Number(p.price) || null;
-      const discount   = Number(p.discount) || 0;
-      const soldout    = Boolean(p.soldout);
+      const name      = p.productdisplayname || "";
+      const brandname = p.brandname || "";
+      const typeOrCat = p.category || p.articletype || "";
+      const baseColor = p.basecolour || p.baseColor || "—";
+      const price     = numberOrNull(p.price);
+      const discount  = numberOrNull(p.discount);
+      const soldout   = !!p.soldout;
 
-      // Title & breadcrumbs
       document.title = name ? `${name} – ${brandname}` : "Produkt";
       if (bcCur) bcCur.textContent = name || `ID ${id}`;
 
-      // Image
+      // Billede
       img.src = `https://kea-alt-del.dk/t7/images/webp/640/${id}.webp`;
-      img.alt = name ? `${name} – ${brandname}` : "Product image";
-      if (soldout) {
-        thumb.classList.add("is-soldout");
-        img.classList.add("is-soldout");
-      }
+      img.alt = name || "Product";
+      if (soldout) { thumb.classList.add("is-soldout"); img.classList.add("is-soldout"); }
 
-      // Middle column
+      // Info
       model.textContent = name || "—";
       color.textContent = baseColor;
       inv.textContent   = id;
-      brand.textContent = brandname || "—";
+      brandEl.textContent = brandname || "—";
 
-      const taglines = {
-        "Nike": "creating experiences for today’s athlete",
-        "Puma": "Forever Faster",
-        "Adidas": "Impossible is Nothing",
-      };
-      brandCp.textContent = taglines[brandname] || "";
-
-      // Right panel header/meta
+      // Købspanel tekst
       bpName.textContent = name || "—";
-      bpMeta.textContent = `${brandname || ""}${category ? " | " + category : ""}`;
+      bpMeta.textContent = `${brandname}${typeOrCat ? " | " + typeOrCat : ""}`;
 
-      // CTA & sold out
+      // CTA
       if (soldout) {
         cta.textContent = "Sold Out";
         cta.disabled = true;
@@ -83,33 +65,62 @@
         cta.disabled = false;
       }
 
-      // === PRISER ===
-      if (price) {
-        if (discount > 0) {
+      // === PRIS ===
+      if (price != null) {
+        if (discount && discount > 0) {
           const now = Math.round(price * (1 - discount/100));
           pricePrev.textContent = `Prev. ${fmt(price)}`;
           priceNow.textContent  = `Now ${fmt(now)}`;
           badge.textContent     = `-${discount}%`;
           badge.hidden = false;
-
-          // valgfrit: også i dokumenttitel
-          document.title += ` – Now ${fmt(now)} (-${discount}%)`;
         } else {
           pricePrev.textContent = "";
           priceNow.textContent  = fmt(price);
           badge.hidden = true;
         }
       } else {
-        // Ingen pris fra API – gem hele prisblokken
         priceWrap.style.display = "none";
       }
+
+      // === BRAND COPY ===
+      // 1) Prøv at bruge tekst direkte fra produktet (hvis feltet findes)
+      let copy = p.brandbio || p.brandBio || p.branddescription || p.brandDescription || "";
+      // 2) Hvis tomt, hent fra /brands?brandname=...
+      if (!copy && brandname) {
+        fetch(`${API_BASE}/brands?brandname=${encodeURIComponent(brandname)}`)
+          .then(r => r.json())
+          .then(arr => {
+            const b = Array.isArray(arr) && arr[0] ? arr[0] : null;
+            const fetched = b && (b.brandbio || b.brandBio || b.branddescription || b.brandDescription || "");
+            if (fetched) {
+              brandCp.textContent = fetched;
+            } else {
+              // 3) Sidste fallback: lille standard-tagline
+              brandCp.textContent = defaultTagline(brandname);
+            }
+          })
+          .catch(() => {
+            brandCp.textContent = defaultTagline(brandname);
+          });
+      } else {
+        // Havde vi en copy direkte?
+        brandCp.textContent = copy || defaultTagline(brandname);
+      }
     })
-    .catch(e => {
-      console.error(e);
+    .catch(err => {
+      console.error(err);
       if (err) err.style.display = "block";
-      if (bcCur) bcCur.textContent = "Product unavailable";
-      bpName.textContent = "Product unavailable";
-      bpMeta.textContent = "";
-      priceWrap.style.display = "none";
     });
-})();
+
+  // Hjælpere
+  function fmt(n){ return `DKK ${Number(n).toLocaleString("da-DK", { maximumFractionDigits: 0 })},-`; }
+  function numberOrNull(v){ const n = Number(v); return Number.isFinite(n) ? n : null; }
+  function defaultTagline(brand){
+    const map = {
+      "Nike": "creating experiences for today’s athlete",
+      "Puma": "Forever Faster",
+      "Adidas": "Impossible is Nothing"
+    };
+    return map[brand] || "";
+  }
+});

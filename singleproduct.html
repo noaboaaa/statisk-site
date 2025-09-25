@@ -1,89 +1,93 @@
 <!DOCTYPE html>
 <html lang="da">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Produkt</title>
-  <link rel="stylesheet" href="css/global.css" />
-  <link rel="stylesheet" href="css/product.css" />
-</head>
-<body>
-  <main class="page">
-    <!-- Header + breadcrumbs (udfyldes af JS) -->
-    <header class="header">
-      <div class="logo">Fashion<span class="r">R</span>Us</div>
-      <nav class="breadcrumbs" aria-label="Brødkrummesti" id="breadcrumbs">
-        <a href="index.html">Home</a><span>›</span>
-        <a href="productlist.html">Products</a><span>›</span>
-        <span aria-current="page" id="bc-current">Loading…</span>
-      </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Produkt</title>
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/product.css" />
+  </head>
+  <body>
+    <main class="page">
+      <!-- Header + breadcrumbs (udfyldes af JS) -->
+      <header class="header">
+        <div class="logo">Fashion<span class="r">R</span>Us</div>
+        <nav class="breadcrumbs" aria-label="Brødkrummesti" id="breadcrumbs">
+          <a href="index.html">Home</a>
+          <span>›</span>
+          <a href="productlist.html">Products</a>
+          <span>›</span>
+          <span aria-current="page" id="bc-current">Loading…</span>
+        </nav>
+      </header>
 
-    <!-- Layout: billede | info | købspanel -->
-    <section class="product-layout" id="product">
-      <!-- Venstre: billede -->
-      <aside class="product-media">
-        <div class="thumb" id="thumb">
-          <img id="prod-img" class="product-img" src="" alt="Loading…" />
-        </div>
-      </aside>
-
-      <!-- Midten: info -->
-      <article class="product-info">
-        <h1 class="pi-title">Product Information</h1>
-
-        <dl class="specs">
-          <div class="row">
-            <dt>Model name</dt>
-            <dd id="model">Loading…</dd>
+      <!-- Layout: billede | info | købspanel -->
+      <section class="product-layout" id="product">
+        <!-- Venstre: billede -->
+        <aside class="product-media">
+          <div class="thumb" id="thumb">
+            <img id="prod-img" class="product-img" src="" alt="Loading…" />
           </div>
-          <div class="row">
-            <dt>Color</dt>
-            <dd id="color">Loading…</dd>
+        </aside>
+
+        <!-- Midten: info -->
+        <article class="product-info">
+          <h1 class="pi-title">Product Information</h1>
+
+          <dl class="specs">
+            <div class="row">
+              <dt>Model name</dt>
+              <dd id="model">Loading…</dd>
+            </div>
+            <div class="row">
+              <dt>Color</dt>
+              <dd id="color">Loading…</dd>
+            </div>
+            <div class="row">
+              <dt>Inventory number</dt>
+              <dd id="inv">Loading…</dd>
+            </div>
+          </dl>
+
+          <h2 class="brand-head" id="brand">Loading…</h2>
+          <p class="brand-copy" id="brand-copy"></p>
+        </article>
+
+        <!-- Højre: købspanel -->
+        <aside class="buy-panel" aria-labelledby="bp-title">
+          <h3 id="bp-title" class="bp-name">Loading…</h3>
+          <p class="bp-meta" id="bp-meta">Loading…</p>
+
+          <!-- PRISER -->
+          <div class="price-wrap" id="price-wrap" aria-live="polite">
+            <div class="prices">
+              <div class="prev" id="price-prev"></div>
+              <div class="now" id="price-now"></div>
+            </div>
+            <span class="discount-badge" id="price-badge" hidden></span>
           </div>
-          <div class="row">
-            <dt>Inventory number</dt>
-            <dd id="inv">Loading…</dd>
+
+          <label class="size-label" for="size">Choose a size</label>
+          <div class="select-wrap">
+            <select id="size" class="size-select" name="size">
+              <option value="S" selected>S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
+            <span class="chev" aria-hidden="true">▾</span>
           </div>
-        </dl>
 
-        <h2 class="brand-head" id="brand">Loading…</h2>
-        <p class="brand-copy" id="brand-copy"></p>
-      </article>
+          <button class="cta" id="cta" type="button">Add to basket</button>
+        </aside>
+      </section>
 
-      <!-- Højre: købspanel -->
-<aside class="buy-panel" aria-labelledby="bp-title">
-  <h3 id="bp-title" class="bp-name">Loading…</h3>
-  <p class="bp-meta" id="bp-meta">Loading…</p>
+      <!-- fejlbesked -->
+      <p id="error" style="display: none; color: #c00; font-weight: 700">
+        Kunne ikke hente produktet. Prøv at genindlæse siden.
+      </p>
+    </main>
 
-  <!-- PRISER -->
-  <div class="price-wrap" id="price-wrap" aria-live="polite">
-    <div class="prices">
-      <div class="prev" id="price-prev"></div>
-      <div class="now" id="price-now"></div>
-    </div>
-    <span class="discount-badge" id="price-badge" hidden></span>
-  </div>
-
-  <label class="size-label" for="size">Choose a size</label>
-  <div class="select-wrap">
-    <select id="size" class="size-select" name="size">
-      <option value="S" selected>S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-    </select>
-    <span class="chev" aria-hidden="true">▾</span>
-  </div>
-
-  <button class="cta" id="cta" type="button">Add to basket</button>
-</aside>
-    </section>
-
-    <!-- fejlbesked -->
-    <p id="error" style="display:none; color:#c00; font-weight:700;">Kunne ikke hente produktet. Prøv at genindlæse siden.</p>
-  </main>
-
-  <script src="js/single.js" defer></script>
-</body>
+    <script src="js/single.js" defer></script>
+  </body>
 </html>
