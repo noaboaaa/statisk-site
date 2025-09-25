@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Produkt</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/product.css" />
+</head>
+<body>
+  <main class="page">
+    <!-- Top/logo + breadcrumbs -->
+    <header class="header">
+      <div class="logo">Fashion<span class="r">R</span>Us</div>
+
+      <nav class="breadcrumbs" aria-label="Brødkrummesti">
+        <a href="#">Home</a>
+        <span>›</span>
+        <a href="#">Brands</a>
+        <span>›</span>
+        <a href="#">Nike</a>
+        <span>›</span>
+        <span aria-current="page">Sahara Team India Fanwear Round Neck Jersey</span>
+      </nav>
+    </header>
+
+    <!-- Produktlayout: billede | info | købspanel -->
+    <section class="product-layout">
+      <!-- Venstre: billede -->
+      <aside class="product-media">
+        <img
+          src="https://kea-alt-del.dk/t7/images/webp/640/1163.webp"
+          alt="Sahara Team India Fanwear Round Neck Jersey – blå Nike trøje"
+          class="product-img"
+          loading="eager"
+        />
+      </aside>
+
+      <!-- Midten: info -->
+      <article class="product-info">
+        <h1 class="pi-title">Product Information</h1>
+
+        <dl class="specs">
+          <div class="row">
+            <dt>Model name</dt>
+            <dd>Sahara Team India Fanwear Round Neck Jersey</dd>
+          </div>
+          <div class="row">
+            <dt>Color</dt>
+            <dd>Blue</dd>
+          </div>
+          <div class="row">
+            <dt>Inventory number</dt>
+            <dd>1163</dd>
+          </div>
+        </dl>
+
+        <h2 class="brand-head">Nike</h2>
+        <p class="brand-copy">Nike, creating experiences for today’s athlete</p>
+      </article>
+
+      <!-- Højre: købspanel -->
+      <aside class="buy-panel" aria-labelledby="bp-title">
+        <h3 id="bp-title" class="bp-name">
+          Sahara Team<br />
+          India<br />
+          Fanwear<br />
+          Round Neck<br />
+          Jersey
+        </h3>
+
+        <p class="bp-meta">Nike | Tshirts</p>
+
+        <label class="size-label" for="size">Choose a size</label>
+        <div class="select-wrap">
+          <select id="size" class="size-select" name="size">
+            <option value="S" selected>S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <span class="chev" aria-hidden="true">▾</span>
+        </div>
+
+        <button class="cta" type="button">Add to basket</button>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

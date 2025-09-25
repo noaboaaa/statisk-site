@@ -1,0 +1,113 @@
+/* Header + breadcrumbs */
+
+.breadcrumbs{
+  margin-top:14px;
+  font-size:14px;
+  color:#222;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.breadcrumbs a{
+  color:#222;
+  text-decoration:underline;
+}
+.breadcrumbs span{ color:var(--muted); }
+
+/* Produktlayout */
+.product-layout{
+  display:grid;
+  grid-template-columns: 480px 1fr 360px;
+  gap: 36px;
+  align-items:start;
+  margin-top: 28px;
+}
+
+/* Billede */
+.product-img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+
+/* Info */
+.pi-title{
+  margin: 4px 0 18px;
+  font-size: clamp(28px, 4.2vw, 56px);
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.specs{ margin:0 0 36px; }
+.specs .row{ margin: 14px 0; }
+.specs dt{ font-weight:800; margin-bottom:6px; }
+.specs dd{ margin:0; color:#222; font-size:18px; }
+
+.brand-head{
+  margin: 30px 0 6px;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight:800;
+}
+.brand-copy{ margin:0; color:#444; font-size:18px; }
+
+/* Købspanel (grå boks til højre) */
+.buy-panel{
+  background:var(--tile);
+  padding:24px;
+  border-radius:4px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  min-height:540px;
+}
+.bp-name{
+  color:#fff;
+  font-size: clamp(26px, 3.6vw, 44px);
+  line-height:1.05;
+  margin:2px 0 6px;
+  font-weight:800;
+  word-break:break-word;
+}
+.bp-meta{
+  margin:0 0 10px;
+  color:#ffffffcc;
+  font-weight:600;
+}
+
+/* Select + label */
+.size-label{ font-weight:700; color:#fff; }
+.select-wrap{ position:relative; width:max-content; }
+.size-select{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  background:#fff;
+  border:1px solid #e4e4e4;
+  border-radius:10px;
+  padding:12px 42px 12px 14px;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+}
+.chev{
+  position:absolute; right:12px; top:50%;
+  transform:translateY(-50%);
+  pointer-events:none; font-size:20px; color:#111;
+}
+
+/* CTA */
+.cta{
+  margin-top:auto;
+  background:#fff; color:#222;
+  font-weight:800; border:1px solid #e5e5e5;
+  border-radius:12px; padding:18px 20px; font-size:20px;
+  cursor:pointer; box-shadow: var(--shadow);
+}
+.cta:hover{ filter:brightness(.98); }
+
+/* Responsivitet */
+@media (max-width: 1100px){
+  .product-layout{ grid-template-columns: 1fr 1fr; }
+  .buy-panel{ grid-column: 1 / -1; }
+}
+@media (max-width: 700px){
+  .product-layout{ grid-template-columns: 1fr; }
+}
